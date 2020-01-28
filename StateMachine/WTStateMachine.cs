@@ -9,8 +9,6 @@ public class WTStateMachine<T> : MonoBehaviour
     public event Action<WTState<T>> OnExitState;
     public event Action<WTState<T>> OnUpdateState;
 
-
-
     public bool useUnityUpdate = false;
     public T data;
 
