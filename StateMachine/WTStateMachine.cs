@@ -38,15 +38,8 @@ public class WTStateMachine<T> : MonoBehaviour
         OnUpdateState?.Invoke(state);
     }
 
-    public void ChangeState(WTState<T> nextState, bool waitForRoutine=false)
+    public void ChangeState(WTState<T> nextState)
     {
-
-        if (waitForRoutine)
-        {
-            StartCoroutine(ChangeOnRoutineEnd(nextState));
-            return;
-        }
-
         if (enterRoutine != null)
             StopCoroutine(enterRoutine);
 
@@ -62,15 +55,6 @@ public class WTStateMachine<T> : MonoBehaviour
             nextState = state.GetNextState(data);
         }
         OnTransitionState?.Invoke(state);
-    }
-
-    private IEnumerator ChangeOnRoutineEnd(WTState<T> nextState)
-    {
-        waiting = true;
-        while (enterRoutine != null)
-            yield return null;
-        ChangeState(nextState);
-        waiting = false;
     }
 
     private IEnumerator RunEnterRoutine(Func<T, IEnumerator> routine)
